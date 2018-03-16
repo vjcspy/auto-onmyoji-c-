@@ -1,4 +1,5 @@
 ﻿using OnymojiAuto.Code.Hooks;
+using OnymojiAuto.Code.Sample;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +35,12 @@ namespace OnymojiAuto.Code.UI
         private void button2_Click(object sender, EventArgs e)
         {
             mouseHook.StopHook();
+        }
+
+        ReactiveX rx = new ReactiveX();
+        private void button3_Click(object sender, EventArgs e)
+        {
+            rx.test();
         }
     }
 }

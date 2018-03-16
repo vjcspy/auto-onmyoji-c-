@@ -16,7 +16,7 @@ namespace OnymojiAuto.Code.Hooks
         //Declare the hook handle as an int.
         public int hHook = 0;
 
-        public delegate void MouseActionDelegate(MouseMessages mouseMessage, int x,int y);
+        public delegate void MouseActionDelegate(MouseMessages mouseMessage, int x, int y);
 
         public event MouseActionDelegate MouseAction;
 

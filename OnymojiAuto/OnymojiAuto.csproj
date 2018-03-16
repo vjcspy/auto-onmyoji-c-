@@ -43,6 +43,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263">
+      <HintPath>..\packages\System.Reactive.4.0.0-preview00001\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +61,7 @@
     <Compile Include="Code\Hooks\MouseHookGlobal.cs" />
     <Compile Include="Code\Model\PointColor.cs" />
     <Compile Include="Code\Model\Window.cs" />
+    <Compile Include="Code\Sample\ReactiveX.cs" />
     <Compile Include="Code\Scripts\ScriptHelper.cs" />
     <Compile Include="Code\Services\ConfigurationService.cs" />
     <Compile Include="Code\UI\MainForm.cs">
@@ -96,8 +100,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Code\Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

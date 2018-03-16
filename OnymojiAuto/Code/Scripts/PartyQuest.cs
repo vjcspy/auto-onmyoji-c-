@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using OnymojiAuto.Code.Model;
 using OnymojiAuto.Code.Services;
@@ -14,8 +16,7 @@ namespace OnymojiAuto.Code.Scripts
         private const string INVITE_PARTY_POINT = "INVITE_PARTY_POINT";
         private const string QUIT_IN_WAITING_POINT = "QUIT_IN_WAITING_POINT";
 
-        public static string ScriptName = "PartyQuest";
-        public static string ConfigSection = "PartyQuest";
+        public const string SCRIPT_NAME = "PartyQuest";
 
         public static string[] PartyQuestPoints =
         {
@@ -29,23 +30,26 @@ namespace OnymojiAuto.Code.Scripts
 
         public static Window window;
 
-        public static async void run()
+        public static Subject<long> checkIdlSubject = new Subject<long>();
+
+        public static async void Run()
         {
             if (window == null)
             {
                 window = new Window("NoxPlayer");
             }
 
-            var backInBattlePoint = ScriptHelper.getPointColorFromConfig(ConfigSection, BACK_IN_BATTLE_POINT);
-            var backInWaitingPoint = ScriptHelper.getPointColorFromConfig(ConfigSection, BACK_IN_WAITING_POINT);
-            var emoInWaitingPoint = ScriptHelper.getPointColorFromConfig(ConfigSection, EMO_IN_WAITING_POINT);
-            var explorerPoint = ScriptHelper.getPointColorFromConfig(ConfigSection, EXPLORER_POINT);
-            var invitePartyPoint = ScriptHelper.getPointColorFromConfig(ConfigSection, INVITE_PARTY_POINT);
-            var quitOkInWaitingPoint = ScriptHelper.getPointColorFromConfig(ConfigSection, QUIT_IN_WAITING_POINT);
+            var backInBattlePoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_BATTLE_POINT);
+            var backInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_WAITING_POINT);
+            var emoInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, EMO_IN_WAITING_POINT);
+            var explorerPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, EXPLORER_POINT);
+            var invitePartyPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, INVITE_PARTY_POINT);
+            var quitOkInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, QUIT_IN_WAITING_POINT);
 
             if (window.isCorrectPixelByRelatedPos(backInBattlePoint))
             {
                 ScriptHelper.Log("In Battle");
+                checkIdlSubject.OnNext(DateTime.UtcNow.Ticks);
                 if (!ScriptHelper.IS_TESTING)
                 {
                 }
