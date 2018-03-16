@@ -42,8 +42,9 @@ namespace OnymojiAuto.Code.Hooks
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
-
+            {
                 return SetWindowsHookEx(HookType.WH_MOUSE_LL, hookProc, GetModuleHandle(curModule.ModuleName), 0);
+            }
         }
 
         private int HookCallBack(int nCode, int wParam, int lParam)
