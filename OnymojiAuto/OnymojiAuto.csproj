@@ -64,6 +64,7 @@
     <Compile Include="Code\Sample\ReactiveX.cs" />
     <Compile Include="Code\Scripts\ScriptHelper.cs" />
     <Compile Include="Code\Services\ConfigurationService.cs" />
+    <Compile Include="Code\Services\MouseKeyboardSimulator.cs" />
     <Compile Include="Code\UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

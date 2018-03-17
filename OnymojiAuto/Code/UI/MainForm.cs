@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static OnymojiAuto.Code.Hooks.HookHelper;
 using AutoIt;
+using System.Reactive.Subjects;
+using System.Reactive.Linq;
 
 namespace OnymojiAuto.Code.UI
 {
@@ -25,6 +27,9 @@ namespace OnymojiAuto.Code.UI
         private string _pointDataSection;
         private string[] _pointIds;
 
+        private IObservable<long> _runingTaskInteval = Observable.Interval(TimeSpan.FromSeconds(2.0));
+        private IDisposable _runingTaskSubscription;
+
         public MainForm()
         {
             InitializeComponent();
@@ -36,6 +41,8 @@ namespace OnymojiAuto.Code.UI
             tabTasks.SelectedIndexChanged += tabTasks_SelectedIndexChanged;
             tabTasks.SelectedIndex = 0;
             dgvPoints.CellClick += dgvPoints_CellClick;
+            btStop.Enabled = false;
+            btStart.Enabled = true;
         }
 
         private void dgvPoints_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -74,7 +81,7 @@ namespace OnymojiAuto.Code.UI
 
             if (e.ColumnIndex == dgvPoints.Columns["action"].Index)
             {
-                
+
 
 
                 if (_supscription != null)
@@ -102,8 +109,9 @@ namespace OnymojiAuto.Code.UI
                     {
                         if (currentTab == "tabParty")
                         {
-                            var _color = PartyQuest.window.PixelGetColor(x, y,null);
-                            string[] _data = { x.ToString(), y.ToString(), _color.ToString() };
+                            var _relatedPoint = PartyQuest.window.getPositionRelatedWindow(x, y);
+                            var _color = PartyQuest.window.getColorOfPixelByRelatedPos(_relatedPoint[0], _relatedPoint[1]);
+                            string[] _data = { _relatedPoint[0].ToString(), _relatedPoint[1].ToString(), _color.ToString() };
                             ScriptHelper.setPointDataToConfig(PartyQuest.SCRIPT_NAME, currentRow.Cells["id"].Value.ToString(), _data);
                         }
 
@@ -129,6 +137,33 @@ namespace OnymojiAuto.Code.UI
 
                 dgvPoints.Rows.Add(data);
             }));
+        }
+
+        private void btStart_Click(object sender, EventArgs e)
+        {
+            btStop_Click(null, null);
+            btStop.Enabled = true;
+            btStart.Enabled = false;
+            _runingTaskSubscription = _runingTaskInteval.Subscribe((x =>
+            {
+                switch (currentTab)
+                {
+                    case "tabParty":
+                        PartyQuest.Run();
+                        break;
+                }
+            }));
+        }
+
+        private void btStop_Click(object sender, EventArgs e)
+        {
+            btStop.Enabled = false;
+            btStart.Enabled = true;
+            if (_runingTaskSubscription != null)
+            {
+                _runingTaskSubscription.Dispose();
+                _runingTaskSubscription = null;
+            }
         }
     }
 }

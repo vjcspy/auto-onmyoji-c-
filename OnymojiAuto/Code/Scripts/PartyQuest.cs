@@ -84,6 +84,14 @@ namespace OnymojiAuto.Code.Scripts
                     window.clickByRelatedCoor(invitePartyPoint);
                 }
             }
+            else
+            {
+                ScriptHelper.Log("Spam");
+                if (!ScriptHelper.IS_TESTING)
+                {
+                    ScriptHelper.Log("Click Spam");
+                }
+            }
         }
     }
 }

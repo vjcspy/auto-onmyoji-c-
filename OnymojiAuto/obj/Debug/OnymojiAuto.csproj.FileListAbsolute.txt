@@ -1,5 +1,5 @@
-E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\OnymojiAuto.exe
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\OnymojiAuto.exe.config
+E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\OnymojiAuto.exe
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\OnymojiAuto.pdb
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\AutoItX3.Assembly.dll
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\INIFileParser.dll

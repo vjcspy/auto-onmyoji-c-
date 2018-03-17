@@ -27,7 +27,7 @@ namespace OnymojiAuto.Code.Scripts
 
             try
             {
-                _pc = new PointColor(id, int.Parse(x), int.Parse(y), decimal.Parse(cl));
+                _pc = new PointColor(id, decimal.Parse(x), decimal.Parse(y), decimal.Parse(cl));
             }
             catch
             {

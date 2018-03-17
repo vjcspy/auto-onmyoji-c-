@@ -55,6 +55,7 @@
             this.btStart.TabIndex = 0;
             this.btStart.Text = "Start";
             this.btStart.UseVisualStyleBackColor = false;
+            this.btStart.Click += new System.EventHandler(this.btStart_Click);
             // 
             // btStop
             // 
@@ -66,6 +67,7 @@
             this.btStop.TabIndex = 1;
             this.btStop.Text = "Stop";
             this.btStop.UseVisualStyleBackColor = false;
+            this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
             // tabTasks
             // 

@@ -12,7 +12,7 @@ namespace OnymojiAuto.Code.Services
     class MouseKeyboardSimulator
     {
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool PostMessage(IntPtr hWnd, MouseMessages Msg, IntPtr wParam, IntPtr lParam);
+        private static extern bool PostMessage(int hWnd, MouseMessages Msg, int wParam, int lParam);
 
         // This function does not perform a case-sensitive search.
         [DllImport("user32.dll", SetLastError = true)]
@@ -36,35 +36,35 @@ namespace OnymojiAuto.Code.Services
             [MarshalAs(UnmanagedType.LPStr)] string lParam); // second message parameter
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool SendMessage(
+        public static extern int SendMessage(
             int hWnd,               // handle to destination window
             int Msg,                // message
             int wParam,             // first message parameter
             int lParam);			// second message parameter
 
 		[DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
+        static extern bool SetForegroundWindow(int hWnd);
 
-        public static void sendMouseClick(IntPtr hwnd, MouseMessages m, int x, int y)
+        public static void sendMouseClick(int hwnd, MouseMessages m, int x, int y)
         {
-			SetFore
+            //SetForegroundWindow(hwnd);
             bool sent = false;
             switch (m)
             {
                 case MouseMessages.WM_LBUTTONUP:
-                   	sent = SendMessage((int)hwnd, (int)MouseMessages.WM_LBUTTONUP,0x00000001, (int)MakeLParam(x, y));
+                    sent = PostMessage(hwnd, MouseMessages.WM_LBUTTONUP,0x00000001, MakeLParam(x, y));
                     break;
                 case MouseMessages.WM_LBUTTONDOWN:
-                    sent = SendMessage((int)hwnd, (int)MouseMessages.WM_LBUTTONDOWN,0x00000000, (int)MakeLParam(x, y));
+                    sent = PostMessage(hwnd, MouseMessages.WM_LBUTTONDOWN,0x00000000, MakeLParam(x, y));
                     break;
             }
             if (sent == false)
             {
-                //throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new Win32Exception(Marshal.GetLastWin32Error());
             }
         }
 
-        private static IntPtr MakeLParam(int LoWord, int HiWord)
+        private static int MakeLParam(int LoWord, int HiWord)
         {
            return ((HiWord << 16) | (LoWord & 0xffff));
         }
