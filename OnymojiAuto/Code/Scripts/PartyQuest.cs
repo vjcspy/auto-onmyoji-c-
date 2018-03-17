@@ -28,9 +28,7 @@ namespace OnymojiAuto.Code.Scripts
             QUIT_IN_WAITING_POINT
         };
 
-        public static Window window = new Window("NoxPlayer");
-
-        public static Subject<long> checkIdlSubject = new Subject<long>();
+        public static Window window = new Window("NoxPlayer");      
 
         public static async void Run()
         {
@@ -44,7 +42,7 @@ namespace OnymojiAuto.Code.Scripts
             if (window.isCorrectPixelByRelatedPos(backInBattlePoint))
             {
                 ScriptHelper.Log("In Battle");
-                checkIdlSubject.OnNext(DateTime.UtcNow.Ticks);
+                ScriptHelper.checkIdlSubject.OnNext(new { Type = "Runing", Time = DateTime.UtcNow.Ticks});
                 if (!ScriptHelper.IS_TESTING)
                 {
                 }

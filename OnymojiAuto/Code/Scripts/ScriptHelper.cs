@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using OnymojiAuto.Code.Model;
 using OnymojiAuto.Code.Services;
 
@@ -10,6 +11,7 @@ namespace OnymojiAuto.Code.Scripts
     {
         public static bool IS_TESTING = true;
         private static readonly List<PointColor> _pointColors = new List<PointColor>();
+        public static Subject<object> checkIdlSubject = new Subject<object>();
 
         public static void setPointDataToConfig(string section, string id, string[] data)
         {

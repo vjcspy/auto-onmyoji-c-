@@ -15,6 +15,8 @@ using static OnymojiAuto.Code.Hooks.HookHelper;
 using AutoIt;
 using System.Reactive.Subjects;
 using System.Reactive.Linq;
+using System.Media;
+using System.Diagnostics;
 
 namespace OnymojiAuto.Code.UI
 {
@@ -29,6 +31,7 @@ namespace OnymojiAuto.Code.UI
 
         private IObservable<long> _runingTaskInteval = Observable.Interval(TimeSpan.FromSeconds(2.0));
         private IDisposable _runingTaskSubscription;
+        private IDisposable _checkIdlSubscription;
 
         public MainForm()
         {
@@ -144,6 +147,7 @@ namespace OnymojiAuto.Code.UI
             btStop_Click(null, null);
             btStop.Enabled = true;
             btStart.Enabled = false;
+
             _runingTaskSubscription = _runingTaskInteval.Subscribe((x =>
             {
                 switch (currentTab)
@@ -153,6 +157,22 @@ namespace OnymojiAuto.Code.UI
                         break;
                 }
             }));
+
+            _checkIdlSubscription = ScriptHelper.checkIdlSubject
+                .Throttle(TimeSpan.FromSeconds(300))
+                .Subscribe((data =>
+                {
+                    using (var soundPlayer = new SoundPlayer(@"c:\Users\Khoi\Music\pacman_death.wav"))
+                    {
+                        soundPlayer.PlayLooping(); // can also use soundPlayer.PlaySync()
+                    }
+
+                    //var psi = new ProcessStartInfo("shutdown", "/s /t 0");
+                    //psi.CreateNoWindow = true;
+                    //psi.UseShellExecute = false;
+                    //Process.Start(psi);
+                }));
+
         }
 
         private void btStop_Click(object sender, EventArgs e)
@@ -163,6 +183,12 @@ namespace OnymojiAuto.Code.UI
             {
                 _runingTaskSubscription.Dispose();
                 _runingTaskSubscription = null;
+            }
+
+            if (_checkIdlSubscription != null)
+            {
+                _checkIdlSubscription.Dispose();
+                _checkIdlSubscription = null;
             }
         }
     }
