@@ -11,7 +11,7 @@ namespace OnymojiAuto.Code.Scripts
         public static bool IS_TESTING = true;
         private static readonly List<PointColor> _pointColors = new List<PointColor>();
 
-        public void setPointDataToConfig(string section, string id, string[] data)
+        public static void setPointDataToConfig(string section, string id, string[] data)
         {
             ConfigurationService.setConfig(section, getXKey(id), data[0]);
             ConfigurationService.setConfig(section, getYKey(id), data[1]);
@@ -21,20 +21,20 @@ namespace OnymojiAuto.Code.Scripts
         public static PointColor getPointColorFromConfig(string section, string id)
         {
             PointColor _pc;
+            var x = ConfigurationService.getConfig(section, getXKey(id));
+            var y = ConfigurationService.getConfig(section, getYKey(id));
+            var cl = ConfigurationService.getConfig(section, getColorKey(id));
+
             try
             {
-                _pc = _pointColors.Single((p) => p.id == id);
-            }
-            catch (Exception e)
-            {
-                var x = ConfigurationService.getConfig(section, getXKey(id));
-                var y = ConfigurationService.getConfig(section, getYKey(id));
-                var cl = ConfigurationService.getConfig(section, getColorKey(id));
-
                 _pc = new PointColor(id, int.Parse(x), int.Parse(y), decimal.Parse(cl));
-                _pointColors.Add(_pc);
+            }
+            catch
+            {
+                _pc = new PointColor(id);
             }
 
+            _pointColors.Add(_pc);
 
             return _pc;
         }

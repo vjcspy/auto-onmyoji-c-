@@ -28,17 +28,12 @@ namespace OnymojiAuto.Code.Scripts
             QUIT_IN_WAITING_POINT
         };
 
-        public static Window window;
+        public static Window window = new Window("NoxPlayer");
 
         public static Subject<long> checkIdlSubject = new Subject<long>();
 
         public static async void Run()
         {
-            if (window == null)
-            {
-                window = new Window("NoxPlayer");
-            }
-
             var backInBattlePoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_BATTLE_POINT);
             var backInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_WAITING_POINT);
             var emoInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, EMO_IN_WAITING_POINT);

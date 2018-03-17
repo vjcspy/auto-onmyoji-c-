@@ -20,21 +20,28 @@ namespace OnymojiAuto.Code.Hooks
 
         public event MouseActionDelegate MouseAction;
 
-        private CallbackDelegate _proc;
+        public static CallbackDelegate _proc;
 
         public void Install()
         {
-            _proc = new CallbackDelegate(this.HookCallBack);
-            hHook = SetupHook(_proc);
-
             if (hHook == 0)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+            {
+                _proc = new CallbackDelegate(this.HookCallBack);
+                hHook = SetupHook(_proc);
+                if (hHook == 0)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
+            }
         }
 
         public void StopHook()
         {
             if (hHook != 0)
+            {
                 UnhookWindowsHookEx(hHook);
+                hHook = 0;
+            }
         }
 
 

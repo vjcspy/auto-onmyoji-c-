@@ -7,6 +7,11 @@
         public int y { get; }
         public decimal color { get; }
 
+        public PointColor(string id)
+        {
+            this.id = id;
+        }
+
         public PointColor(string id, int x, int y, decimal color)
         {
             this.id = id;

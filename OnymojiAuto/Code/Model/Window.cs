@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using OnymojiAuto.Code.Services;
+using AutoIt;
 
 namespace OnymojiAuto.Code.Model
 {
@@ -17,21 +18,26 @@ namespace OnymojiAuto.Code.Model
             hwdn = WinGetHandle(title);
         }
 
-        public decimal PixelGetColor(int x, int y, int? hwnd)
+        public decimal PixelGetColor(int x, int y,int? hwnd)
         {
-            return 0;
+            return AutoItX.PixelGetColor(x, y);
         }
 
         public int WinGetHandle(string title)
         {
-            return 0;
+            return (int)AutoItX.WinGetHandle(title);
         }
 
         public int[] WinGetPos()
         {
-            int[] winPos = { };
+            var winPos = AutoItX.WinGetPos(winHandle: (IntPtr)hwdn);
+            if (winPos.IsEmpty)
+            {
+                throw new Exception("Can not find game window");
+            }
 
-            return winPos;
+            int[] _winPos = { winPos.X, winPos.Y, winPos.Width, winPos.Height };
+            return _winPos;
         }
 
         public int getWindowX()
