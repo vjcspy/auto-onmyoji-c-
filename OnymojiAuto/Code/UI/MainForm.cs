@@ -29,7 +29,7 @@ namespace OnymojiAuto.Code.UI
         private string _pointDataSection;
         private string[] _pointIds;
 
-        private IObservable<long> _runingTaskInteval = Observable.Interval(TimeSpan.FromSeconds(2.0));
+        private IObservable<long> _runingTaskInteval = Observable.Interval(TimeSpan.FromSeconds(2));
         private IDisposable _runingTaskSubscription;
         private IDisposable _checkIdlSubscription;
 
@@ -48,11 +48,6 @@ namespace OnymojiAuto.Code.UI
             btStart.Enabled = true;
         }
 
-        private void dgvPoints_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         // Change Tab
         private void tabTasks_SelectedIndexChanged(Object sender, EventArgs e)
         {
@@ -68,6 +63,13 @@ namespace OnymojiAuto.Code.UI
                     _pointIds = PartyQuest.PartyQuestPoints;
                     InitPointData();
                     break;
+                case "tabSnake":
+                    currentTab = "tabSnake";
+                    _pointDataSection = Snake.SCRIPT_NAME;
+                    _pointIds = Snake.Points;
+                    InitPointData();
+                    initStateButton();
+                    break;
                 default:
                     break;
             }
@@ -76,6 +78,7 @@ namespace OnymojiAuto.Code.UI
         private IDisposable _supscription;
         //private bool _firstClick = true;
 
+        // Set point data in datagridview
         private void dgvPoints_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             var pointsGrid = (DataGridView)sender;
@@ -108,14 +111,22 @@ namespace OnymojiAuto.Code.UI
                     int y = Convert.ToInt32(pY.GetValue(ob));
                     int message = Convert.ToInt32(pMouseMessage.GetValue(ob));
 
-                    if (message == (int)MouseMessages.WM_LBUTTONUP)
+                    if (message == (int)MouseMessages.WM_RBUTTONUP)
                     {
                         if (currentTab == "tabParty")
                         {
-                            var _relatedPoint = PartyQuest.window.getPositionRelatedWindow(x, y);
-                            var _color = PartyQuest.window.getColorOfPixelByRelatedPos(_relatedPoint[0], _relatedPoint[1]);
+                            var _relatedPoint = ScriptHelper.window.getPositionRelatedWindow(x, y);
+                            var _color = ScriptHelper.window.getColorOfPixelByRelatedPos(_relatedPoint[0], _relatedPoint[1]);
                             string[] _data = { _relatedPoint[0].ToString(), _relatedPoint[1].ToString(), _color.ToString() };
                             ScriptHelper.setPointDataToConfig(PartyQuest.SCRIPT_NAME, currentRow.Cells["id"].Value.ToString(), _data);
+                        }
+
+                        if (currentTab == "tabSnake")
+                        {
+                            var _relatedPoint = ScriptHelper.window.getPositionRelatedWindow(x, y);
+                            var _color = ScriptHelper.window.getColorOfPixelByRelatedPos(_relatedPoint[0], _relatedPoint[1]);
+                            string[] _data = { _relatedPoint[0].ToString(), _relatedPoint[1].ToString(), _color.ToString() };
+                            ScriptHelper.setPointDataToConfig(Snake.SCRIPT_NAME, currentRow.Cells["id"].Value.ToString(), _data);
                         }
 
                         uiEffects.stopMouseHook();
@@ -128,6 +139,7 @@ namespace OnymojiAuto.Code.UI
             }
         }
 
+        // Initilize point data in datagridview
         private void InitPointData()
         {
             dgvPoints.Rows.Clear();
@@ -154,6 +166,9 @@ namespace OnymojiAuto.Code.UI
                 {
                     case "tabParty":
                         PartyQuest.Run();
+                        break;
+                    case "tabSnake":
+                        Snake.run();
                         break;
                 }
             }));
@@ -190,6 +205,98 @@ namespace OnymojiAuto.Code.UI
                 _checkIdlSubscription.Dispose();
                 _checkIdlSubscription = null;
             }
+        }
+
+        private void btSkills_Click(object sender, EventArgs e)
+        {
+            var _bt = (Button)sender;
+            switch (_bt.Name)
+            {
+                case "btSpeedSkills":
+                    Snake.saveSkillsData(Snake.SKILLS_SPEED);
+                    break;
+                case "btMasterSkills":
+                    Snake.saveSkillsData(Snake.SKILLS_MASTER);
+                    break;
+                case "btDameSkills":
+                    Snake.saveSkillsData(Snake.SKILLS_DAMAGE);
+                    break;
+            }
+
+            initStateButton();
+        }
+
+        private void initStateButton()
+        {
+            if (Snake.isExistedDataSkill(Snake.SKILLS_MASTER))
+            {
+                btMasterSkills.BackColor = Color.Green;
+            }
+            else
+            {
+                btMasterSkills.BackColor = Color.Red;
+            }
+
+            if (Snake.isExistedDataSkill(Snake.SKILLS_DAMAGE))
+            {
+                btDameSkills.BackColor = Color.Green;
+            }
+            else
+            {
+                btDameSkills.BackColor = Color.Red;
+            }
+
+            if (Snake.isExistedDataSkill(Snake.SKILLS_SPEED))
+            {
+                btSpeedSkills.BackColor = Color.Green;
+            }
+            else
+            {
+                btSpeedSkills.BackColor = Color.Red;
+            }
+        }
+
+        private void btGenRePos_Click(object sender, EventArgs e)
+        {
+            if (_supscription != null)
+            {
+                uiEffects.stopMouseHook();
+                _supscription.Dispose();
+            }
+
+            uiEffects.installMouseHoook();
+
+            _supscription = uiEffects.MouseActions
+                .Subscribe((ob =>
+                {
+                    AutoItX.ToolTip("Click on point");
+
+                    var t = ob.GetType();
+                    var pX = t.GetProperty("x");
+                    var pY = t.GetProperty("y");
+                    var pMouseMessage = t.GetProperty("mouseMessage");
+                    int x = Convert.ToInt32(pX.GetValue(ob));
+                    int y = Convert.ToInt32(pY.GetValue(ob));
+                    int message = Convert.ToInt32(pMouseMessage.GetValue(ob));
+
+                    if (message == (int)MouseMessages.WM_RBUTTONUP)
+                    {
+                        var _relatedPoint = ScriptHelper.window.getPositionRelatedWindow(x, y);
+                        var _color = ScriptHelper.window.getColorOfPixelByRelatedPos(_relatedPoint[0], _relatedPoint[1]);
+                        string[] _data = { _relatedPoint[0].ToString(), _relatedPoint[1].ToString(), _color.ToString() };
+
+                        tbReX.Text = _relatedPoint[0].ToString();
+                        tbReY.Text = _relatedPoint[1].ToString();
+
+                        tbRealX.Text = x.ToString();
+                        tbRealY.Text = y.ToString();
+
+                        uiEffects.stopMouseHook();
+                        _supscription.Dispose();
+                        _supscription = null;
+                        AutoItX.ToolTip(String.Empty);
+                    }
+                }));
         }
     }
 }

@@ -28,10 +28,9 @@ namespace OnymojiAuto.Code.Scripts
             QUIT_IN_WAITING_POINT
         };
 
-        public static Window window = new Window("NoxPlayer");      
-
-        public static async void Run()
+        public static void Run()
         {
+            Console.Clear();
             var backInBattlePoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_BATTLE_POINT);
             var backInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_WAITING_POINT);
             var emoInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, EMO_IN_WAITING_POINT);
@@ -39,17 +38,21 @@ namespace OnymojiAuto.Code.Scripts
             var invitePartyPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, INVITE_PARTY_POINT);
             var quitOkInWaitingPoint = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, QUIT_IN_WAITING_POINT);
 
-            if (window.isCorrectPixelByRelatedPos(backInBattlePoint))
+            if (ScriptHelper.window.isCorrectPixelByRelatedPos(quitOkInWaitingPoint))
+            {
+                ScriptHelper.window.clickByRelatedCoor(quitOkInWaitingPoint);
+            }
+            else if (ScriptHelper.window.isCorrectPixelByRelatedPos(backInBattlePoint))
             {
                 ScriptHelper.Log("In Battle");
-                ScriptHelper.checkIdlSubject.OnNext(new { Type = "Runing", Time = DateTime.UtcNow.Ticks});
+                ScriptHelper.checkIdlSubject.OnNext(new { Type = "Runing", Time = DateTime.UtcNow.Ticks });
                 if (!ScriptHelper.IS_TESTING)
                 {
                 }
             }
-            else if (window.isCorrectPixelByRelatedPos(backInWaitingPoint))
+            else if (ScriptHelper.window.isCorrectPixelByRelatedPos(backInWaitingPoint))
             {
-                if (window.isCorrectPixelByRelatedPos(emoInWaitingPoint))
+                if (ScriptHelper.window.isCorrectPixelByRelatedPos(emoInWaitingPoint))
                 {
                     ScriptHelper.Log("Waiting");
                     if (!ScriptHelper.IS_TESTING)
@@ -62,24 +65,22 @@ namespace OnymojiAuto.Code.Scripts
                     if (!ScriptHelper.IS_TESTING)
                     {
                         ScriptHelper.Log("Click Back");
-                        window.clickByRelatedCoor(backInWaitingPoint);
-                        await Task.Delay(500);
-                        ScriptHelper.Log("Click OK");
-                        window.clickByRelatedCoor(quitOkInWaitingPoint);
+                        ScriptHelper.window.clickByRelatedCoor(backInWaitingPoint);
                     }
+
                 }
             }
-            else if (window.isCorrectPixelByRelatedPos(explorerPoint))
+            else if (ScriptHelper.window.isCorrectPixelByRelatedPos(explorerPoint))
             {
                 ScriptHelper.Log("Explorer");
-            }
-            else if (window.isCorrectPixelByRelatedPos(invitePartyPoint))
-            {
-                ScriptHelper.Log("Inviting");
-                if (!ScriptHelper.IS_TESTING)
+                if (ScriptHelper.window.isCorrectPixelByRelatedPos(invitePartyPoint))
                 {
-                    ScriptHelper.Log("Click Accept");
-                    window.clickByRelatedCoor(invitePartyPoint);
+                    ScriptHelper.Log("Inviting");
+                    if (!ScriptHelper.IS_TESTING)
+                    {
+                        ScriptHelper.Log("Click Accept");
+                        ScriptHelper.window.clickByRelatedCoor(invitePartyPoint);
+                    }
                 }
             }
             else
@@ -88,6 +89,7 @@ namespace OnymojiAuto.Code.Scripts
                 if (!ScriptHelper.IS_TESTING)
                 {
                     ScriptHelper.Log("Click Spam");
+                    ScriptHelper.window.clickByRelatedCoor(22.85106m, 7.95947m);
                 }
             }
         }

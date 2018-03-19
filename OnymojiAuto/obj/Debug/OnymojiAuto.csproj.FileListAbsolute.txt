@@ -7,7 +7,6 @@ E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\System.Reactive.dll
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\AutoItX3.Assembly.xml
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\INIFileParser.xml
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\bin\Debug\System.Reactive.xml
-E:\c#\onymoji\OnymojiAuto\OnymojiAuto\obj\Debug\OnymojiAuto.csprojResolveAssemblyReference.cache
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\obj\Debug\OnymojiAuto.Code.UI.MainForm.resources
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\obj\Debug\OnymojiAuto.Properties.Resources.resources
 E:\c#\onymoji\OnymojiAuto\OnymojiAuto\obj\Debug\OnymojiAuto.csproj.GenerateResource.cache

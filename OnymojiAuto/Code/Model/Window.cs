@@ -107,9 +107,15 @@ namespace OnymojiAuto.Code.Model
             return PixelGetColor(realCoor[0], realCoor[1], hwdn);
         }
 
+        public decimal getColorOfPixelByRelatedPos(PointColor point)
+        {
+            return getColorOfPixelByRelatedPos(point.x, point.y);
+        }
+
         public bool isCorrectPixelByRelatedPos(decimal x, decimal y, decimal color)
         {
-            return getColorOfPixelByRelatedPos(x, y) == color;
+            var _color = getColorOfPixelByRelatedPos(x, y);
+            return _color == color;
         }
 
         public bool isCorrectPixelByRelatedPos(PointColor pointColor)

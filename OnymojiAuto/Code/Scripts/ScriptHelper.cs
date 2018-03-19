@@ -9,8 +9,12 @@ namespace OnymojiAuto.Code.Scripts
 {
     public class ScriptHelper
     {
-        public static bool IS_TESTING = true;
+
+        public static Window window = new Window("NoxPlayer");
+
+        public static bool IS_TESTING = false;
         private static readonly List<PointColor> _pointColors = new List<PointColor>();
+        public static Subject<int> checkInterrupt = new Subject<int>();
         public static Subject<object> checkIdlSubject = new Subject<object>();
 
         public static void setPointDataToConfig(string section, string id, string[] data)

@@ -40,9 +40,9 @@ namespace OnymojiAuto.Code.Services
             int hWnd,               // handle to destination window
             int Msg,                // message
             int wParam,             // first message parameter
-            int lParam);			// second message parameter
+            int lParam);            // second message parameter
 
-		[DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(int hWnd);
 
         public static void sendMouseClick(int hwnd, MouseMessages m, int x, int y)
@@ -52,10 +52,10 @@ namespace OnymojiAuto.Code.Services
             switch (m)
             {
                 case MouseMessages.WM_LBUTTONUP:
-                    sent = PostMessage(hwnd, MouseMessages.WM_LBUTTONUP,0x00000001, MakeLParam(x, y));
+                    sent = PostMessage(hwnd, MouseMessages.WM_LBUTTONUP, 0x00000000, MakeLParam(x, y));
                     break;
                 case MouseMessages.WM_LBUTTONDOWN:
-                    sent = PostMessage(hwnd, MouseMessages.WM_LBUTTONDOWN,0x00000000, MakeLParam(x, y));
+                    sent = PostMessage(hwnd, MouseMessages.WM_LBUTTONDOWN, 0x00000001, MakeLParam(x, y));
                     break;
             }
             if (sent == false)
@@ -66,7 +66,7 @@ namespace OnymojiAuto.Code.Services
 
         private static int MakeLParam(int LoWord, int HiWord)
         {
-           return ((HiWord << 16) | (LoWord & 0xffff));
+            return ((HiWord << 16) | (LoWord & 0xffff));
         }
     }
 }

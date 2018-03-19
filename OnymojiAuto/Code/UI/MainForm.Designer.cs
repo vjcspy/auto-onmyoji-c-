@@ -33,14 +33,26 @@
             this.btStop = new System.Windows.Forms.Button();
             this.tabTasks = new System.Windows.Forms.TabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbReY = new System.Windows.Forms.TextBox();
+            this.tbReX = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbRealY = new System.Windows.Forms.TextBox();
+            this.tbRealX = new System.Windows.Forms.TextBox();
+            this.btGenRePos = new System.Windows.Forms.Button();
             this.tabParty = new System.Windows.Forms.TabPage();
             this.tabSnake = new System.Windows.Forms.TabPage();
+            this.btDameSkills = new System.Windows.Forms.Button();
+            this.btMasterSkills = new System.Windows.Forms.Button();
+            this.btSpeedSkills = new System.Windows.Forms.Button();
             this.dgvPoints = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.color = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabTasks.SuspendLayout();
+            this.tabHome.SuspendLayout();
+            this.tabSnake.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -82,6 +94,13 @@
             // 
             // tabHome
             // 
+            this.tabHome.Controls.Add(this.label2);
+            this.tabHome.Controls.Add(this.tbReY);
+            this.tabHome.Controls.Add(this.tbReX);
+            this.tabHome.Controls.Add(this.label1);
+            this.tabHome.Controls.Add(this.tbRealY);
+            this.tabHome.Controls.Add(this.tbRealX);
+            this.tabHome.Controls.Add(this.btGenRePos);
             this.tabHome.Location = new System.Drawing.Point(4, 22);
             this.tabHome.Name = "tabHome";
             this.tabHome.Padding = new System.Windows.Forms.Padding(3);
@@ -89,6 +108,66 @@
             this.tabHome.TabIndex = 2;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Related";
+            // 
+            // tbReY
+            // 
+            this.tbReY.Location = new System.Drawing.Point(175, 44);
+            this.tbReY.Name = "tbReY";
+            this.tbReY.ReadOnly = true;
+            this.tbReY.Size = new System.Drawing.Size(100, 20);
+            this.tbReY.TabIndex = 5;
+            // 
+            // tbReX
+            // 
+            this.tbReX.Location = new System.Drawing.Point(68, 44);
+            this.tbReX.Name = "tbReX";
+            this.tbReX.ReadOnly = true;
+            this.tbReX.Size = new System.Drawing.Size(100, 20);
+            this.tbReX.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "RealCoor";
+            // 
+            // tbRealY
+            // 
+            this.tbRealY.Location = new System.Drawing.Point(174, 18);
+            this.tbRealY.Name = "tbRealY";
+            this.tbRealY.ReadOnly = true;
+            this.tbRealY.Size = new System.Drawing.Size(100, 20);
+            this.tbRealY.TabIndex = 2;
+            // 
+            // tbRealX
+            // 
+            this.tbRealX.Location = new System.Drawing.Point(68, 18);
+            this.tbRealX.Name = "tbRealX";
+            this.tbRealX.ReadOnly = true;
+            this.tbRealX.Size = new System.Drawing.Size(100, 20);
+            this.tbRealX.TabIndex = 1;
+            // 
+            // btGenRePos
+            // 
+            this.btGenRePos.Location = new System.Drawing.Point(280, 15);
+            this.btGenRePos.Name = "btGenRePos";
+            this.btGenRePos.Size = new System.Drawing.Size(75, 23);
+            this.btGenRePos.TabIndex = 0;
+            this.btGenRePos.Text = "Generate";
+            this.btGenRePos.UseVisualStyleBackColor = true;
+            this.btGenRePos.Click += new System.EventHandler(this.btGenRePos_Click);
             // 
             // tabParty
             // 
@@ -102,6 +181,9 @@
             // 
             // tabSnake
             // 
+            this.tabSnake.Controls.Add(this.btDameSkills);
+            this.tabSnake.Controls.Add(this.btMasterSkills);
+            this.tabSnake.Controls.Add(this.btSpeedSkills);
             this.tabSnake.Location = new System.Drawing.Point(4, 22);
             this.tabSnake.Name = "tabSnake";
             this.tabSnake.Padding = new System.Windows.Forms.Padding(3);
@@ -109,6 +191,36 @@
             this.tabSnake.TabIndex = 4;
             this.tabSnake.Text = "Snake";
             this.tabSnake.UseVisualStyleBackColor = true;
+            // 
+            // btDameSkills
+            // 
+            this.btDameSkills.Location = new System.Drawing.Point(187, 20);
+            this.btDameSkills.Name = "btDameSkills";
+            this.btDameSkills.Size = new System.Drawing.Size(75, 23);
+            this.btDameSkills.TabIndex = 2;
+            this.btDameSkills.Text = "Dame Skills";
+            this.btDameSkills.UseVisualStyleBackColor = true;
+            this.btDameSkills.Click += new System.EventHandler(this.btSkills_Click);
+            // 
+            // btMasterSkills
+            // 
+            this.btMasterSkills.Location = new System.Drawing.Point(106, 20);
+            this.btMasterSkills.Name = "btMasterSkills";
+            this.btMasterSkills.Size = new System.Drawing.Size(75, 23);
+            this.btMasterSkills.TabIndex = 1;
+            this.btMasterSkills.Text = "Master Skills";
+            this.btMasterSkills.UseVisualStyleBackColor = true;
+            this.btMasterSkills.Click += new System.EventHandler(this.btSkills_Click);
+            // 
+            // btSpeedSkills
+            // 
+            this.btSpeedSkills.Location = new System.Drawing.Point(25, 20);
+            this.btSpeedSkills.Name = "btSpeedSkills";
+            this.btSpeedSkills.Size = new System.Drawing.Size(75, 23);
+            this.btSpeedSkills.TabIndex = 0;
+            this.btSpeedSkills.Text = "Speed Skills";
+            this.btSpeedSkills.UseVisualStyleBackColor = true;
+            this.btSpeedSkills.Click += new System.EventHandler(this.btSkills_Click);
             // 
             // dgvPoints
             // 
@@ -124,7 +236,6 @@
             this.dgvPoints.ReadOnly = true;
             this.dgvPoints.Size = new System.Drawing.Size(380, 159);
             this.dgvPoints.TabIndex = 2;
-            this.dgvPoints.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPoints_CellContentClick);
             // 
             // id
             // 
@@ -171,6 +282,9 @@
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.tabTasks.ResumeLayout(false);
+            this.tabHome.ResumeLayout(false);
+            this.tabHome.PerformLayout();
+            this.tabSnake.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -190,5 +304,15 @@
         private System.Windows.Forms.TabPage tabHome;
         private System.Windows.Forms.TabPage tabParty;
         private System.Windows.Forms.TabPage tabSnake;
+        private System.Windows.Forms.Button btDameSkills;
+        private System.Windows.Forms.Button btMasterSkills;
+        private System.Windows.Forms.Button btSpeedSkills;
+        private System.Windows.Forms.TextBox tbRealY;
+        private System.Windows.Forms.TextBox tbRealX;
+        private System.Windows.Forms.Button btGenRePos;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbReY;
+        private System.Windows.Forms.TextBox tbReX;
+        private System.Windows.Forms.Label label1;
     }
 }
