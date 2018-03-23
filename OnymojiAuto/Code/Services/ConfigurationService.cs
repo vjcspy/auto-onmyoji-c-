@@ -13,36 +13,43 @@ namespace OnymojiAuto.Code.Services
     {
 
         private static IniData data = null;
-        private static readonly FileIniDataParser parser =  new FileIniDataParser();
+        private static readonly FileIniDataParser parser = new FileIniDataParser();
 
-        public static void setConfig(string section,string key,string value)
+        public static void setConfig(string section, string key, string value)
         {
-            ConfigurationService.getData();
-            ConfigurationService.data[section][key] = value;
-            parser.WriteFile("Configuration.ini", ConfigurationService.data);
+            getData();
+            data[section][key] = value;
+            parser.WriteFile("Configuration.ini", data);
         }
 
         public static string getConfig(string section, string key)
         {
-            ConfigurationService.getData();
-            return ConfigurationService.data[section][key];
+            getData();
+            return data[section][key];
         }
 
-        private static IniData getData()
+        public static void clearKey(string section, string key)
         {
-            if(ConfigurationService.data == null)
+            getData();
+            data[section].RemoveKey(key);
+            parser.WriteFile("Configuration.ini", data);
+        }
+
+        public static IniData getData()
+        {
+            if (data == null)
             {
                 var parser = new FileIniDataParser();
                 if (!File.Exists(("Configuration.ini")))
                 {
-                    File.Create(("Configuration.ini"));          
-            
+                    File.Create(("Configuration.ini"));
+
                 }
 
-                ConfigurationService.data = parser.ReadFile("Configuration.ini");
+                data = parser.ReadFile("Configuration.ini");
             }
-            
-            return ConfigurationService.data;
+
+            return data;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,6 +30,8 @@ namespace OnymojiAuto.Code.Scripts
         static decimal[] skill2 = { 85.35826m, 92.15426m };
         //static decimal[] skill3 = { 1, 2 };
 
+
+
         public static string[] Points = {
             BACK_IN_BATTLE,
             MONSTER_1,
@@ -43,7 +46,7 @@ namespace OnymojiAuto.Code.Scripts
         private static int _masterNumberCastingSkill = 0;
         private static Random rnd = new Random();
 
-        public  static void run()
+        public static void run()
         {
             var _backInBattle = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, BACK_IN_BATTLE);
             var _monster1 = ScriptHelper.getPointColorFromConfig(SCRIPT_NAME, MONSTER_1);
@@ -69,6 +72,23 @@ namespace OnymojiAuto.Code.Scripts
                 if (ScriptHelper.window.isCorrectPixelByRelatedPos(_readySnake))
                 {
                     Console.WriteLine("Ready");
+                    if (ScriptHelper._watchTimeSpent != null)
+                    {
+                        ScriptHelper._watchTimeSpent.Stop();
+
+                        if (ScriptHelper._watchTimeSpent.ElapsedMilliseconds / 1000 < 300)
+                        {
+                            ScriptHelper._checkInterruptAuto += 1;
+                        }
+                        else
+                        {
+                            ScriptHelper._checkInterruptAuto = 0;
+                        }
+                    }
+                    else
+                    {
+                        ScriptHelper._watchTimeSpent = Stopwatch.StartNew();
+                    }
                     if (!ScriptHelper.IS_TESTING)
                     {
                         ScriptHelper.window.clickByRelatedCoor(_readySnake);
@@ -156,10 +176,9 @@ namespace OnymojiAuto.Code.Scripts
                 if (!ScriptHelper.IS_TESTING)
                 {
                     Console.WriteLine("Click SPAM");
-                    ScriptHelper.window.clickByRelatedCoor(rnd.Next(40, 60), 67);
+                    ScriptHelper.window.clickByRelatedCoor(30, 5);
                 }
             }
-            Thread.Sleep(2000);
         }
 
         public static void saveSkillsData(string id)

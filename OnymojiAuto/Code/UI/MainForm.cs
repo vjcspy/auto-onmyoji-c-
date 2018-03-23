@@ -17,6 +17,8 @@ using System.Reactive.Subjects;
 using System.Reactive.Linq;
 using System.Media;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using OnymojiAuto.Code.Services;
 
 namespace OnymojiAuto.Code.UI
 {
@@ -29,14 +31,17 @@ namespace OnymojiAuto.Code.UI
         private string _pointDataSection;
         private string[] _pointIds;
 
-        private IObservable<long> _runingTaskInteval = Observable.Interval(TimeSpan.FromSeconds(2));
+        private IObservable<long> _runingTaskInteval = Observable.Interval(TimeSpan.FromSeconds(1));
         private IDisposable _runingTaskSubscription;
         private IDisposable _checkIdlSubscription;
+
+        private static SoundPlayer soundPlayer;
 
         public MainForm()
         {
             InitializeComponent();
             InitializeControl();
+            soundPlayer = new SoundPlayer(@"c:\Users\Khoi\Music\pacman_death.wav");
         }
 
         private void InitializeControl()
@@ -69,6 +74,12 @@ namespace OnymojiAuto.Code.UI
                     _pointIds = Snake.Points;
                     InitPointData();
                     initStateButton();
+                    break;
+                case "tabHunting":
+                    currentTab = "tabHunting";
+                    _pointDataSection = Hunter.SCRIPT_NAME;
+                    _pointIds = Hunter.Points;
+                    InitPointData();
                     break;
                 default:
                     break;
@@ -129,6 +140,39 @@ namespace OnymojiAuto.Code.UI
                             ScriptHelper.setPointDataToConfig(Snake.SCRIPT_NAME, currentRow.Cells["id"].Value.ToString(), _data);
                         }
 
+                        if (currentTab == "tabHunting")
+                        {
+
+                            var id = currentRow.Cells["id"].Value.ToString();
+                            if (id.IndexOf("MON") > -1)
+                            {
+                                Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                                Graphics g = Graphics.FromImage(screenCapture);
+
+                                g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                                 Screen.PrimaryScreen.Bounds.Y,
+                                                 0, 0,
+                                                 screenCapture.Size,
+                                                 CopyPixelOperation.SourceCopy);
+
+                                var _data = new List<object>();
+                                for (var k = 0; k < 10; k++)
+                                {
+                                    var _color = screenCapture.GetPixel(x + k, y);
+                                    _data.Add(new { x = k, y, color = Color.Black.ToArgb().ToString() });
+                                }
+
+                                ScriptHelper.setDataToConfig(Hunter.SCRIPT_NAME, id, JsonConvert.SerializeObject(_data));
+                            }
+                            else
+                            {
+                                var _relatedPoint = ScriptHelper.window.getPositionRelatedWindow(x, y);
+                                var _color = ScriptHelper.window.getColorOfPixelByRelatedPos(_relatedPoint[0], _relatedPoint[1]);
+                                string[] _data = { _relatedPoint[0].ToString(), _relatedPoint[1].ToString(), _color.ToString() };
+                                ScriptHelper.setPointDataToConfig(Hunter.SCRIPT_NAME, currentRow.Cells["id"].Value.ToString(), _data);
+                            }
+                        }
+
                         uiEffects.stopMouseHook();
                         _supscription.Dispose();
                         _supscription = null;
@@ -162,25 +206,41 @@ namespace OnymojiAuto.Code.UI
 
             _runingTaskSubscription = _runingTaskInteval.Subscribe((x =>
             {
-                switch (currentTab)
+                try
                 {
-                    case "tabParty":
-                        PartyQuest.Run();
-                        break;
-                    case "tabSnake":
-                        Snake.run();
-                        break;
+                    if (ScriptHelper._checkInterruptAuto > 3)
+                    {
+                        btStop_Click(null, null);
+                        soundPlayer.PlayLooping(); // can also use soundPlayer.PlaySync()
+                        return;
+                    }
+
+                    switch (currentTab)
+                    {
+                        case "tabParty":
+                            PartyQuest.Run();
+                            break;
+                        case "tabSnake":
+                            Snake.run();
+                            break;
+                        case "tabHunting":
+                            Hunter.run(); ;
+                            break;
+
+                    }
                 }
+                catch
+                {
+
+                }
+
             }));
 
             _checkIdlSubscription = ScriptHelper.checkIdlSubject
-                .Throttle(TimeSpan.FromSeconds(300))
+                .Throttle(TimeSpan.FromSeconds(150))
                 .Subscribe((data =>
                 {
-                    using (var soundPlayer = new SoundPlayer(@"c:\Users\Khoi\Music\pacman_death.wav"))
-                    {
-                        soundPlayer.PlayLooping(); // can also use soundPlayer.PlaySync()
-                    }
+                    soundPlayer.PlayLooping(); // can also use soundPlayer.PlaySync()
 
                     //var psi = new ProcessStartInfo("shutdown", "/s /t 0");
                     //psi.CreateNoWindow = true;
@@ -205,6 +265,8 @@ namespace OnymojiAuto.Code.UI
                 _checkIdlSubscription.Dispose();
                 _checkIdlSubscription = null;
             }
+
+            soundPlayer.Stop();
         }
 
         private void btSkills_Click(object sender, EventArgs e)
@@ -297,6 +359,15 @@ namespace OnymojiAuto.Code.UI
                         AutoItX.ToolTip(String.Empty);
                     }
                 }));
+        }
+
+        private void btClearMonster_Click(object sender, EventArgs e)
+        {
+            ConfigurationService.clearKey(Hunter.SCRIPT_NAME, Hunter.MONSTER_1);
+            ConfigurationService.clearKey(Hunter.SCRIPT_NAME, Hunter.MONSTER_2);
+            ConfigurationService.clearKey(Hunter.SCRIPT_NAME, Hunter.MONSTER_3);
+            ConfigurationService.clearKey(Hunter.SCRIPT_NAME, Hunter.MONSTER_4);
+            ConfigurationService.clearKey(Hunter.SCRIPT_NAME, Hunter.MONSTER_5);
         }
     }
 }

@@ -42,9 +42,12 @@
             this.btGenRePos = new System.Windows.Forms.Button();
             this.tabParty = new System.Windows.Forms.TabPage();
             this.tabSnake = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.btDameSkills = new System.Windows.Forms.Button();
             this.btMasterSkills = new System.Windows.Forms.Button();
             this.btSpeedSkills = new System.Windows.Forms.Button();
+            this.tabHunting = new System.Windows.Forms.TabPage();
+            this.btClearMonster = new System.Windows.Forms.Button();
             this.dgvPoints = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.color = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,6 +56,7 @@
             this.tabTasks.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.tabSnake.SuspendLayout();
+            this.tabHunting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -86,6 +90,7 @@
             this.tabTasks.Controls.Add(this.tabHome);
             this.tabTasks.Controls.Add(this.tabParty);
             this.tabTasks.Controls.Add(this.tabSnake);
+            this.tabTasks.Controls.Add(this.tabHunting);
             this.tabTasks.Location = new System.Drawing.Point(1, 3);
             this.tabTasks.Name = "tabTasks";
             this.tabTasks.SelectedIndex = 0;
@@ -181,6 +186,7 @@
             // 
             // tabSnake
             // 
+            this.tabSnake.Controls.Add(this.checkBox1);
             this.tabSnake.Controls.Add(this.btDameSkills);
             this.tabSnake.Controls.Add(this.btMasterSkills);
             this.tabSnake.Controls.Add(this.btSpeedSkills);
@@ -191,6 +197,16 @@
             this.tabSnake.TabIndex = 4;
             this.tabSnake.Text = "Snake";
             this.tabSnake.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(106, 77);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(107, 17);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "Turn Off when idl";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // btDameSkills
             // 
@@ -221,6 +237,27 @@
             this.btSpeedSkills.Text = "Speed Skills";
             this.btSpeedSkills.UseVisualStyleBackColor = true;
             this.btSpeedSkills.Click += new System.EventHandler(this.btSkills_Click);
+            // 
+            // tabHunting
+            // 
+            this.tabHunting.Controls.Add(this.btClearMonster);
+            this.tabHunting.Location = new System.Drawing.Point(4, 22);
+            this.tabHunting.Name = "tabHunting";
+            this.tabHunting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHunting.Size = new System.Drawing.Size(372, 291);
+            this.tabHunting.TabIndex = 5;
+            this.tabHunting.Text = "Hunting";
+            this.tabHunting.UseVisualStyleBackColor = true;
+            // 
+            // btClearMonster
+            // 
+            this.btClearMonster.Location = new System.Drawing.Point(47, 42);
+            this.btClearMonster.Name = "btClearMonster";
+            this.btClearMonster.Size = new System.Drawing.Size(168, 23);
+            this.btClearMonster.TabIndex = 0;
+            this.btClearMonster.Text = "Clear Monster";
+            this.btClearMonster.UseVisualStyleBackColor = true;
+            this.btClearMonster.Click += new System.EventHandler(this.btClearMonster_Click);
             // 
             // dgvPoints
             // 
@@ -264,10 +301,6 @@
             this.action.ToolTipText = "Set";
             this.action.UseColumnTextForButtonValue = true;
             // 
-            // mainFormBindingSource
-            // 
-            this.mainFormBindingSource.DataSource = typeof(OnymojiAuto.Code.UI.MainForm);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,11 +313,13 @@
             this.Controls.Add(this.btStart);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Onymoji 0.0.7";
             this.tabTasks.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
             this.tabHome.PerformLayout();
             this.tabSnake.ResumeLayout(false);
+            this.tabSnake.PerformLayout();
+            this.tabHunting.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPoints)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -314,5 +349,8 @@
         private System.Windows.Forms.TextBox tbReY;
         private System.Windows.Forms.TextBox tbReX;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TabPage tabHunting;
+        private System.Windows.Forms.Button btClearMonster;
     }
 }

@@ -41,6 +41,9 @@
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263">
@@ -62,9 +65,11 @@
     <Compile Include="Code\Model\PointColor.cs" />
     <Compile Include="Code\Model\Window.cs" />
     <Compile Include="Code\Sample\ReactiveX.cs" />
+    <Compile Include="Code\Scripts\Hunter.cs" />
     <Compile Include="Code\Scripts\ScriptHelper.cs" />
     <Compile Include="Code\Scripts\Snake.cs" />
     <Compile Include="Code\Services\ConfigurationService.cs" />
+    <Compile Include="Code\Services\Draw.cs" />
     <Compile Include="Code\Services\MouseKeyboardSimulator.cs" />
     <Compile Include="Code\UI\MainForm.cs">
       <SubType>Form</SubType>
@@ -106,6 +111,8 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Code\Scripts\Hunter\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Subjects;
 using OnymojiAuto.Code.Model;
@@ -12,6 +13,9 @@ namespace OnymojiAuto.Code.Scripts
 
         public static Window window = new Window("NoxPlayer");
 
+        public static int _checkInterruptAuto = 0;
+        public static Stopwatch _watchTimeSpent;
+
         public static bool IS_TESTING = false;
         private static readonly List<PointColor> _pointColors = new List<PointColor>();
         public static Subject<int> checkInterrupt = new Subject<int>();
@@ -22,6 +26,11 @@ namespace OnymojiAuto.Code.Scripts
             ConfigurationService.setConfig(section, getXKey(id), data[0]);
             ConfigurationService.setConfig(section, getYKey(id), data[1]);
             ConfigurationService.setConfig(section, getColorKey(id), data[2]);
+        }
+
+        public static void setDataToConfig(string section, string id, string data)
+        {
+            ConfigurationService.setConfig(section, id, data);
         }
 
         public static PointColor getPointColorFromConfig(string section, string id)
